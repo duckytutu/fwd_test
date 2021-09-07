@@ -31,9 +31,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   resultTable: {
     marginTop: theme.spacing(3),
   },
+  row: {},
 }));
 
-export default function Demo() {
+interface Props {
+  defaultParams?: GetProductParams;
+}
+
+export default function Demo(props: Props) {
+  const { defaultParams } = props;
   const classes = useStyles();
   const [quotationProducts, setQuotationProducts] = React.useState<Product[]>(
     []
@@ -66,7 +72,7 @@ export default function Demo() {
   return (
     <div className={classes.root}>
       <Paper className={classes.content}>
-        <SearchBar onCalculate={onGetProducts} />
+        <SearchBar onCalculate={onGetProducts} defaultParams={defaultParams} />
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -81,19 +87,33 @@ export default function Demo() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {quotationProducts.map((row) => (
-                <TableRow key={row.productId}>
-                  <TableCell component="th" scope="row">
-                    {row.productId}
+              {quotationProducts.length > 0 ? (
+                <>
+                  {quotationProducts.map((row) => (
+                    <TableRow key={row.productId} className={classes.row}>
+                      <TableCell component="th" scope="row">
+                        {row.productId}
+                      </TableCell>
+                      <TableCell>{row.productTypeCd}</TableCell>
+                      <TableCell>{row.productFamilyCd}</TableCell>
+                      <TableCell align="right">{row.baseSumAssured}</TableCell>
+                      <TableCell align="right">
+                        {row.baseAnnualPremium}
+                      </TableCell>
+                      <TableCell align="right">{row.productTerm}</TableCell>
+                      <TableCell align="right">
+                        {row.premiumPayingTerm}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </>
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={7} align="center">
+                    {isLoading ? "Loading..." : "No record found."}
                   </TableCell>
-                  <TableCell>{row.productTypeCd}</TableCell>
-                  <TableCell>{row.productFamilyCd}</TableCell>
-                  <TableCell align="right">{row.baseSumAssured}</TableCell>
-                  <TableCell align="right">{row.baseAnnualPremium}</TableCell>
-                  <TableCell align="right">{row.productTerm}</TableCell>
-                  <TableCell align="right">{row.premiumPayingTerm}</TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>

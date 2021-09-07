@@ -29,7 +29,7 @@ export const DatePicker = React.memo((props: Props) => {
 
   const handleDateChange = useCallback(
     (newDate) => {
-      // setSelectedDate(newDate);
+      setSelectedDate(newDate);
       onChangeDate(newDate);
     },
     [onChangeDate]
@@ -46,7 +46,7 @@ export const DatePicker = React.memo((props: Props) => {
         margin="dense"
         label={label}
         placeholder="____/__/__"
-        value={null}
+        value={selectedDate}
         onChange={handleDateChange}
         KeyboardButtonProps={{ size: "small" }}
         InputProps={{ className: classes.inputDatePicker }}

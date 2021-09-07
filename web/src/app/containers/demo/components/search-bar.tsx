@@ -7,6 +7,8 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import format from "date-fns/format";
 import isValid from "date-fns/isValid";
+import parseISO from "date-fns/parseISO";
+import find from "lodash/find";
 import omit from "lodash/omit";
 import * as React from "react";
 import { GetProductParams } from "../../../../types/request";
@@ -67,19 +69,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
   onCalculate: (params: GetProductParams) => void;
+  defaultParams?: GetProductParams;
 }
 
 export const SearchBar = React.memo((props: Props) => {
   const classes = useStyles();
 
-  const { onCalculate } = props;
+  const { onCalculate, defaultParams } = props;
   const [searchParams, setSearchParams] = React.useState<GetProductParams>(
-    {} as GetProductParams
+    defaultParams || ({} as GetProductParams)
   );
   const [calculateMethod, setCalculateMethod] = React.useState(0);
 
   const onDobChange = React.useCallback((value) => {
-    console.log("date", value);
     if (isValid(value)) {
       const dob = format(value, "yyyy-MM-dd");
       setSearchParams((prev) => ({
@@ -160,7 +162,12 @@ export const SearchBar = React.memo((props: Props) => {
       <Typography>Input information</Typography>
       <Grid container spacing={3} className={classes.inputForm}>
         <Grid item xs={12} sm={6} md={4}>
-          <TextBox name="username" label="Name" onChange={onNameChange} />
+          <TextBox
+            name="username"
+            label="Name"
+            onChange={onNameChange}
+            defaultValue={defaultParams?.name}
+          />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <SelectBox
@@ -169,6 +176,10 @@ export const SearchBar = React.memo((props: Props) => {
             options={genders}
             getOptionLabel={(opt) => opt.label}
             onChange={onGenderChange}
+            defaultValue={find(
+              genders,
+              (opt) => opt.value === defaultParams?.genderCd
+            )}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
@@ -176,7 +187,9 @@ export const SearchBar = React.memo((props: Props) => {
             name="dob"
             label="Dob"
             onChangeDate={onDobChange}
-            defaultDate={null}
+            defaultDate={
+              defaultParams?.dob ? parseISO(defaultParams.dob) : null
+            }
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
@@ -186,6 +199,10 @@ export const SearchBar = React.memo((props: Props) => {
             options={plans}
             getOptionLabel={(opt) => opt.label}
             onChange={onPlanChange}
+            defaultValue={find(
+              plans,
+              (opt) => opt.value === defaultParams?.planCode
+            )}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
@@ -195,6 +212,10 @@ export const SearchBar = React.memo((props: Props) => {
             options={paymentFrequencies}
             getOptionLabel={(opt) => opt.label}
             onChange={onFrequencyChange}
+            defaultValue={find(
+              paymentFrequencies,
+              (opt) => opt.value === defaultParams?.paymentFrequency
+            )}
           />
         </Grid>
       </Grid>
@@ -207,6 +228,7 @@ export const SearchBar = React.memo((props: Props) => {
               onChange={onCalculateMethodChange}
               margin="dense"
               fullWidth
+              defaultValue={defaultParams?.premiumPerYear ? 0 : 1}
             >
               <MenuItem value={0}>Sum assured by premium</MenuItem>
               <MenuItem value={1}>Premium by sun assured</MenuItem>
@@ -220,6 +242,9 @@ export const SearchBar = React.memo((props: Props) => {
               label="Premium per year"
               onChange={onPremiumPerYearChange}
               type="number"
+              defaultValue={
+                defaultParams?.premiumPerYear || defaultParams?.saPerYear
+              }
             />
           ) : (
             <TextBox

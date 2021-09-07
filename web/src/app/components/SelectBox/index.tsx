@@ -1,10 +1,7 @@
-import { TextField } from '@material-ui/core';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import {
-  Autocomplete,
-  UseAutocompleteProps
-} from '@material-ui/lab';
-import React from 'react';
+import { TextField } from "@material-ui/core";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { Autocomplete, UseAutocompleteProps } from "@material-ui/lab";
+import React from "react";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -14,8 +11,8 @@ const useStyles = makeStyles(() =>
     },
     textField: {
       margin: 0,
-    }
-  }),
+    },
+  })
 );
 
 interface Props<T> extends UseAutocompleteProps<T, boolean, boolean, boolean> {
@@ -25,23 +22,18 @@ interface Props<T> extends UseAutocompleteProps<T, boolean, boolean, boolean> {
   label?: string;
   placeholder?: string;
   [propName: string]: any;
+  defaultValue?: any;
 }
 export const SelectBox = React.memo((props: Props<any>) => {
   const classes = useStyles();
-  const {
-    className,
-    label,
-    placeholder,
-    name,
-    ...rest
-  } = props;
+  const { className, label, placeholder, name, ...rest } = props;
 
   return (
     <Autocomplete
       {...rest}
       className={`${classes.root} ${className}`}
       id={name}
-      renderInput={params => (
+      renderInput={(params) => (
         <TextField
           {...params}
           label={label}
