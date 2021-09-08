@@ -6,7 +6,6 @@ import { GetProductParams } from "../../../types/request";
 import Demo from "./index";
 
 const defaultParams: GetProductParams = {
-  name: "Test",
   genderCd: "FEMALE",
   dob: "1983-02-21",
   planCode: "T11A20",

@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 import format from "date-fns/format";
 import isValid from "date-fns/isValid";
 import parseISO from "date-fns/parseISO";
@@ -159,16 +158,7 @@ export const SearchBar = React.memo((props: Props) => {
 
   return (
     <>
-      <Typography>Input information</Typography>
       <Grid container spacing={3} className={classes.inputForm}>
-        <Grid item xs={12} sm={6} md={4}>
-          <TextBox
-            name="username"
-            label="Name"
-            onChange={onNameChange}
-            defaultValue={defaultParams?.name}
-          />
-        </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <SelectBox
             name="gender"
@@ -218,8 +208,6 @@ export const SearchBar = React.memo((props: Props) => {
             )}
           />
         </Grid>
-      </Grid>
-      <Grid container spacing={3} className={classes.inputForm}>
         <Grid item xs={12} sm={6} md={4}>
           <FormControl variant="outlined" fullWidth>
             <Select
