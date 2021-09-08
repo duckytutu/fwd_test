@@ -1,0 +1,23 @@
+{
+  "name": "automation-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@wdio/cli": "^7.12.1",
+    "@wdio/cucumber-framework": "^7.12.1",
+    "@wdio/local-runner": "^7.12.1",
+    "@wdio/spec-reporter": "^7.10.1",
+    "chromedriver": "^93.0.1",
+    "wdio-chromedriver-service": "^7.2.0"
+  },
+  "dependencies": {
+    "@wdio/sync": "^7.12.1"
+  }
+}
